@@ -6,10 +6,13 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor //final필드값을 인식하여 생성자를 자동으로 만들어준다...
 public class OrderServiceImpl implements OrderService{
 
     //private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -18,11 +21,27 @@ public class OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    /* (2)수정자 주입(setter 주입)
     @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    public void setMemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+    @Autowired
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
+    */
+     
+
+    // @RequiredArgsConstructor 를 넣었기에 주석처리.
+    @Autowired //생성자가 하나면 생략가능 스프링 빈에서만 해당
+    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) { //@Autowired 타입매칭이 두개일경우 @Qualifier를 사용하여 새로운 별칭자를 정해준다.
+        //1.타입매칭 , 타입 매칭 결과가 2개이상일때 필드 명,파라미터 명으로 빈 이름 매칭 discountPolicy->rateDiscountPolicy
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
+
+
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

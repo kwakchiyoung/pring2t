@@ -9,7 +9,7 @@ import org.springframework.context.annotation.FilterType;
 @Configuration
 @ComponentScan(
 
-        basePackages = "hello.core.member", //이렇게 하면 hello.core.member하위 컴포넌트 스캔 대상이 된다.
+        //basePackages = "hello.core.member", //이렇게 하면 hello.core.member하위 컴포넌트 스캔 대상이 된다.
         //우리가 수동으로 등록한 AppConfig안에 Configuration은 제외헤야해서. @Configuration안에 @ComponentScan이 포함되어있음.
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION , classes = Configuration.class)
 
