@@ -17,7 +17,7 @@ public class AppConfig {
 
     //리펙토링 CNT+ART+M (1)(2)
     @Bean //@Bean이 붙은 메서드의 명을 스프링 빈의 이름으로 사용한다.
-    public MemberRepository MemberRepository() {//(1)
+    public MemberRepository memberRepository() {//(1)
         return new MemoryMemberRepository(); //이 코드만 바꾸면 된다.
     }
 
@@ -30,14 +30,14 @@ public class AppConfig {
 
     @Bean
     public MemberService memberService123(){
-        return new MemberServiceImpl(MemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
 
 
     @Bean
     public OrderService orderService(){
-        return new OrderServiceImpl(MemberRepository(),discountPolicy());
+        return new OrderServiceImpl(memberRepository(),discountPolicy());
     }
 
 
